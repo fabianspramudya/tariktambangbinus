@@ -1,0 +1,344 @@
+/* ===== Palet BINUS: biru, oranye, hitam, putih =====
+   Ganti nilai hex di sini jika ingin menyesuaikan dengan pedoman warna resmi. */
+:root {
+  --blue: #0072bc;
+  --orange: #f7941d;
+  --black: #1a1a1a;
+  --white: #ffffff;
+
+  --p1: var(--blue);     /* Player 1 = biru */
+  --p2: var(--orange);   /* Player 2 / Bot = oranye */
+  --bg: #f3f8fd;
+  --ink: var(--black);
+  --ok: #27ae60;
+  --bad: #e74c3c;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  /* Supaya layar sentuh tidak zoom, tidak memilih teks, tidak muncul menu tahan-lama */
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+/* ===== Sistem layar: hanya satu yang tampil ===== */
+.screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5vmin;
+  padding: max(3vmin, env(safe-area-inset-top)) max(3vmin, env(safe-area-inset-right))
+           max(3vmin, env(safe-area-inset-bottom)) max(3vmin, env(safe-area-inset-left));
+}
+.screen.active { display: flex; }
+
+h1 { font-size: clamp(28px, 9vmin, 80px); text-align: center; line-height: 1.05; }
+h1 { color: var(--blue); }
+h1 span { color: var(--orange); }
+
+/* ===== Branding BINUS ===== */
+.stripe {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1.6vmin;
+  background: linear-gradient(90deg, var(--blue) 0 70%, var(--orange) 70%);
+}
+.brand {
+  position: absolute;
+  top: max(3vmin, env(safe-area-inset-top));
+  left: max(3vmin, env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  gap: 1.5vmin;
+}
+.logo { height: clamp(36px, 10vmin, 80px); width: auto; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.brand-text b {
+  color: var(--blue);
+  font-size: clamp(14px, 3.4vmin, 26px);
+  letter-spacing: .08em;
+}
+.brand-text span {
+  color: var(--black);
+  font-size: clamp(11px, 2.4vmin, 18px);
+  border-left: .6vmin solid var(--orange);
+  padding-left: 1vmin;
+  margin-top: .5vmin;
+}
+.mini-brand {
+  text-align: center;
+  font-size: clamp(10px, 2.2vmin, 16px);
+  opacity: .7;
+}
+.mini-brand b { color: var(--blue); }
+.sound-toggle {
+  position: absolute;
+  top: max(3vmin, env(safe-area-inset-top));
+  right: max(3vmin, env(safe-area-inset-right));
+  width: clamp(40px, 9vmin, 64px);
+  height: clamp(40px, 9vmin, 64px);
+  border-radius: 50%;
+  border: 3px solid var(--blue);
+  background: var(--white);
+  font-size: clamp(18px, 4.5vmin, 32px);
+}
+h2 { font-size: clamp(24px, 7vmin, 56px); }
+.label { font-size: clamp(14px, 3vmin, 22px); opacity: .75; }
+
+.row { display: flex; gap: 2.5vmin; flex-wrap: wrap; justify-content: center; }
+
+/* ===== Tombol menu ===== */
+.btn {
+  font: inherit;
+  font-weight: 800;
+  font-size: clamp(16px, 3.8vmin, 30px);
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 2vmin;
+  padding: 2vmin 4vmin;
+  box-shadow: 0 .8vmin 0 var(--ink);
+  touch-action: manipulation;
+}
+.btn:active { transform: translateY(.6vmin); box-shadow: 0 .2vmin 0 var(--ink); }
+.btn small { display: block; font-size: .6em; font-weight: 500; opacity: .7; margin-top: .4vmin; }
+.btn.big { font-size: clamp(18px, 4.5vmin, 36px); padding: 2.5vmin 5vmin; }
+.btn.ghost { background: transparent; box-shadow: none; border-style: dashed; }
+.btn.big[data-mode="pvp"] { background: var(--blue); color: var(--white); }
+.lv1 { background: #d9ecf9; }
+.lv2 { background: #ffe3bf; }
+.lv3 { background: var(--orange); color: var(--white); }
+
+/* ===== Layar permainan ===== */
+#screen-game.active {
+  display: grid;
+  grid-template-columns: 30% 1fr 30%;
+  align-items: stretch;
+  gap: 1.5vmin;
+  padding: max(1.5vmin, env(safe-area-inset-top)) max(1.5vmin, env(safe-area-inset-right))
+           max(1.5vmin, env(safe-area-inset-bottom)) max(1.5vmin, env(safe-area-inset-left));
+}
+
+.side {
+  --c: var(--p1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vmin;
+  min-height: 0;
+  padding: 1.5vmin;
+  background: #fff;
+  border: 3px solid var(--c);
+  border-radius: 2vmin;
+}
+.p2 { --c: var(--p2); }
+
+.tag {
+  background: var(--c);
+  color: #fff;
+  font-weight: 800;
+  text-align: center;
+  border-radius: 1.2vmin;
+  padding: .8vmin;
+  font-size: clamp(14px, 3.2vmin, 26px);
+}
+.question {
+  text-align: center;
+  font-weight: 800;
+  font-size: clamp(22px, 7.5vmin, 60px);
+  white-space: nowrap;
+}
+.answer {
+  height: clamp(36px, 9vmin, 76px);
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: clamp(22px, 6.5vmin, 52px);
+  border: 3px dashed var(--c);
+  border-radius: 1.2vmin;
+  transition: background .2s;
+}
+.answer:empty::before { content: "?"; opacity: .25; }
+.answer.good { background: #d4f8df; border: 3px solid var(--ok); }
+.answer.bad  { background: #fde2e0; border: 3px solid var(--bad); animation: shake .35s; }
+
+/* ===== Number pad ===== */
+.pad {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 1vmin;
+}
+.key {
+  font: inherit;
+  font-weight: 800;
+  font-size: clamp(18px, 5.5vmin, 44px);
+  color: var(--ink);
+  background: #eaf3fb;
+  border: none;
+  border-radius: 1.2vmin;
+  box-shadow: 0 .5vmin 0 rgba(0,0,0,.2);
+  touch-action: none; /* respon sentuhan instan, tanpa jeda */
+}
+.key.pressed { transform: translateY(.4vmin); box-shadow: none; filter: brightness(.88); }
+.key.ok  { background: var(--ok); color: #fff; }
+.key.del { background: #ffe3bf; }
+.side.is-bot .pad { opacity: .4; pointer-events: none; }
+
+/* ===== Arena ===== */
+.arena {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2vmin;
+}
+.quit {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: clamp(36px, 8vmin, 56px);
+  height: clamp(36px, 8vmin, 56px);
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  font-size: clamp(16px, 4vmin, 26px);
+  font-weight: 800;
+}
+.hint { text-align: center; font-size: clamp(12px, 2.8vmin, 20px); opacity: .7; }
+
+.stage {
+  position: relative;
+  height: 58%;
+  overflow: hidden;
+  border: 3px solid var(--ink);
+  border-radius: 2vmin;
+  background: linear-gradient(#bfe6ff 0 72%, #7ccf6b 72%);
+}
+.finish {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 8px;
+  background: repeating-linear-gradient(#fff 0 10px, var(--ink) 10px 20px);
+  z-index: 2;
+}
+.finish.left  { left: 0; }
+.finish.right { right: 0; }
+
+/* Garis bantu tiap 1 langkah tarikan (6.25% lebar arena) */
+.ticks {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 28%;
+  background: repeating-linear-gradient(90deg,
+    transparent 0 calc(6.25% - 2px),
+    rgba(255,255,255,.45) calc(6.25% - 2px) 6.25%);
+}
+.center-line {
+  position: absolute;
+  left: 50%; top: 60%; bottom: 0;
+  width: 4px; margin-left: -2px;
+  background: #fff;
+}
+
+/* Tim (2 stickman + tambang) bergerak bersama */
+.team {
+  position: absolute;
+  left: 25%;
+  width: 50%;
+  bottom: 20%;
+  height: 52%;
+  display: flex;
+  align-items: flex-end;
+  transition: transform .45s cubic-bezier(.3, 1.4, .5, 1);
+  z-index: 1;
+}
+.stick { height: 100%; aspect-ratio: 60 / 100; flex: none; overflow: visible; transform-origin: 50% 100%; }
+.rope {
+  position: relative;
+  flex: 1;
+  align-self: stretch;
+  background: linear-gradient(transparent 43%, #8b5a2b 43% 48%, transparent 48%);
+}
+.ribbon {
+  position: absolute;
+  left: 50%; top: 38%;
+  width: 8px; height: 16%;
+  margin-left: -4px;
+  background: #e63946;
+  border-radius: 2px;
+}
+.team.tug-left  .stick { animation: leanL .35s; }
+.team.tug-right .stick { animation: leanR .35s; }
+
+/* Hitung mundur */
+.countdown {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,114,188,.6);
+  color: #fff;
+  font-weight: 900;
+  font-size: clamp(60px, 25vmin, 220px);
+  z-index: 10;
+}
+.countdown.show { display: flex; }
+.countdown span { animation: pop .8s ease-out; }
+
+/* ===== Layar menang ===== */
+#screen-win { background: radial-gradient(circle, #fff3e2, var(--bg)); }
+.trophy { font-size: clamp(60px, 22vmin, 200px); animation: bounce 1s infinite; }
+
+/* ===== Peringatan posisi tegak ===== */
+#rotate {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8vmin;
+  background: var(--blue);
+  color: #fff;
+  font-size: clamp(20px, 6vmin, 40px);
+  line-height: 1.5;
+}
+@media (orientation: portrait) {
+  #rotate { display: flex; }
+}
+
+/* ===== Animasi ===== */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+@keyframes leanL { 50% { transform: rotate(-8deg); } }
+@keyframes leanR { 50% { transform: rotate(8deg); } }
+@keyframes pop {
+  0% { transform: scale(.3); opacity: 0; }
+  40% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes bounce { 50% { transform: translateY(-4vmin); } }

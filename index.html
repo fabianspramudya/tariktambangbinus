@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <!-- Mencegah zoom saat layar disentuh berkali-kali -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <!-- Bisa dibuka fullscreen jika di-"Add to Home Screen" -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0072bc">
+  <title>Tarik Tambang Matematika</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== LAYAR 1: WELCOME / PILIH MODE ===== -->
+  <section id="screen-home" class="screen active">
+    <div class="stripe"></div>
+    <header class="brand">
+      <!-- Taruh file logo resmi bernama logo.png di folder yang sama.
+           Jika file tidak ada, gambar otomatis disembunyikan. -->
+      <img src="logo.png" alt="BINUS University" class="logo" onerror="this.remove()">
+      <div class="brand-text">
+        <b>BINUS UNIVERSITY</b>
+        <span>Mathematics &amp; Statistics Department</span>
+      </div>
+    </header>
+    <button class="sound-toggle" id="btn-sound" aria-label="Suara">🔊</button>
+
+    <h1>Tarik Tambang<br><span>Matematika</span></h1>
+    <button class="btn big" data-mode="pvp">👥 Player vs Player</button>
+    <p class="label">atau lawan Bot:</p>
+    <div class="row">
+      <button class="btn lv1" data-mode="bot" data-level="1">🤖 Level 1<small>santai</small></button>
+      <button class="btn lv2" data-mode="bot" data-level="2">🤖 Level 2<small>sedang</small></button>
+      <button class="btn lv3" data-mode="bot" data-level="3">🤖 Level 3<small>cepat!</small></button>
+    </div>
+  </section>
+
+  <!-- ===== LAYAR 2: PILIH JENIS SOAL ===== -->
+  <section id="screen-op" class="screen">
+    <h2>Pilih Jenis Soal</h2>
+    <div class="row">
+      <button class="btn big" data-op="addsub">➕➖ Tambah &amp; Kurang<small>sampai 40</small></button>
+      <button class="btn big" data-op="mul">✖️ Perkalian<small>sampai 11 × 11</small></button>
+      <button class="btn big" data-op="div">➗ Pembagian<small>hasil bulat</small></button>
+    </div>
+    <button class="btn ghost" id="btn-back-op">← Kembali</button>
+  </section>
+
+  <!-- ===== LAYAR 3: PERMAINAN ===== -->
+  <section id="screen-game" class="screen">
+
+    <!-- Player 1 (kiri) -->
+    <div class="side p1">
+      <div class="tag" id="tag1">Player 1</div>
+      <div class="question" id="q1">–</div>
+      <div class="answer" id="a1"></div>
+      <div class="pad" id="pad1"></div>
+    </div>
+
+    <!-- Arena tengah -->
+    <div class="arena">
+      <button class="quit" id="btn-quit" aria-label="Keluar">✕</button>
+      <div class="stage">
+        <div class="finish left"></div>
+        <div class="finish right"></div>
+        <div class="ticks"></div>
+        <div class="center-line"></div>
+
+        <div class="team" id="team">
+          <!-- Stickman Player 1 (biru, menghadap kanan) -->
+          <svg class="stick s1" viewBox="0 0 60 100">
+            <g stroke="var(--p1)" stroke-width="5" stroke-linecap="round" fill="none">
+              <circle cx="17" cy="17" r="9" fill="var(--p1)"/>
+              <line x1="22" y1="28" x2="30" y2="62"/>
+              <line x1="24" y1="36" x2="60" y2="45"/>
+              <line x1="24" y1="40" x2="60" y2="47"/>
+              <line x1="30" y1="62" x2="16" y2="97"/>
+              <line x1="30" y1="62" x2="46" y2="97"/>
+            </g>
+          </svg>
+
+          <div class="rope"><div class="ribbon"></div></div>
+
+          <!-- Stickman Player 2 (merah, dicerminkan) -->
+          <svg class="stick s2" viewBox="0 0 60 100">
+            <g transform="translate(60,0) scale(-1,1)" stroke="var(--p2)" stroke-width="5" stroke-linecap="round" fill="none">
+              <circle cx="17" cy="17" r="9" fill="var(--p2)"/>
+              <line x1="22" y1="28" x2="30" y2="62"/>
+              <line x1="24" y1="36" x2="60" y2="45"/>
+              <line x1="24" y1="40" x2="60" y2="47"/>
+              <line x1="30" y1="62" x2="16" y2="97"/>
+              <line x1="30" y1="62" x2="46" y2="97"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <p class="hint" id="hint">Jawab benar untuk menarik tambang!</p>
+      <p class="mini-brand"><b>BINUS</b> University · Mathematics &amp; Statistics</p>
+    </div>
+
+    <!-- Player 2 / Bot (kanan) -->
+    <div class="side p2" id="side2">
+      <div class="tag" id="tag2">Player 2</div>
+      <div class="question" id="q2">–</div>
+      <div class="answer" id="a2"></div>
+      <div class="pad" id="pad2"></div>
+    </div>
+
+    <div class="countdown" id="countdown"></div>
+  </section>
+
+  <!-- ===== LAYAR 4: PEMENANG ===== -->
+  <section id="screen-win" class="screen">
+    <div class="stripe"></div>
+    <div class="trophy">🏆</div>
+    <h1 id="win-text">Player 1 Menang!</h1>
+    <button class="btn big" id="btn-home">🏠 Kembali ke Menu</button>
+    <p class="label" id="auto-back"></p>
+    <p class="mini-brand"><b>BINUS</b> University · Mathematics &amp; Statistics Department</p>
+  </section>
+
+  <!-- Muncul jika HP/tablet dalam posisi tegak -->
+  <div id="rotate">📱↻<br>Putar perangkat ke posisi <b>landscape</b></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
