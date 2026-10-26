@@ -145,8 +145,14 @@ function flash(p, cls) {
 
 function updateTeam(direction) {
   const team = $('team');
-  // Setiap langkah = 12.5% lebar tim (= 6.25% lebar arena)
-  team.style.transform = `translateX(${state.pos * 12.5}%)`;
+  // Posisi awal tim di 15% dari kiri arena. Tiap langkah bergeser 3.75% lebar arena,
+  // sehingga setelah 4 langkah pemain menyentuh garis finish.
+  team.style.left = `${15 + state.pos * 3.75}%`;
+
+  // Bar posisi: biru = bagian Player 1, oranye = bagian Player 2
+  const blue = 50 - state.pos * (50 / WIN_STEPS);
+  $('meter-fill').style.width = blue + '%';
+  $('meter-mark').style.left = blue + '%';
   if (direction) {
     team.classList.remove('tug-left', 'tug-right');
     void team.offsetWidth;

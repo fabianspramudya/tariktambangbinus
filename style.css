@@ -208,7 +208,7 @@ h2 { font-size: clamp(24px, 7vmin, 56px); }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2vmin;
+  gap: 1.6vmin;
 }
 .quit {
   position: absolute;
@@ -227,12 +227,19 @@ h2 { font-size: clamp(24px, 7vmin, 56px); }
 
 .stage {
   position: relative;
-  height: 58%;
+  height: 54%;
   overflow: hidden;
   border: 3px solid var(--ink);
   border-radius: 2vmin;
-  background: linear-gradient(#bfe6ff 0 72%, #7ccf6b 72%);
+  background: #ddd7cc;
 }
+.campus, .bg-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.bg-photo { object-fit: cover; object-position: center bottom; }
 .finish {
   position: absolute;
   top: 0; bottom: 0;
@@ -242,52 +249,59 @@ h2 { font-size: clamp(24px, 7vmin, 56px); }
 }
 .finish.left  { left: 0; }
 .finish.right { right: 0; }
-
-/* Garis bantu tiap 1 langkah tarikan (6.25% lebar arena) */
-.ticks {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 28%;
-  background: repeating-linear-gradient(90deg,
-    transparent 0 calc(6.25% - 2px),
-    rgba(255,255,255,.45) calc(6.25% - 2px) 6.25%);
-}
 .center-line {
   position: absolute;
-  left: 50%; top: 60%; bottom: 0;
+  left: 50%; top: 68%; bottom: 0;
   width: 4px; margin-left: -2px;
   background: #fff;
 }
 
-/* Tim (2 stickman + tambang) bergerak bersama */
+/* Tambang + stickman. Posisi diatur JS lewat "left". */
 .team {
   position: absolute;
-  left: 25%;
-  width: 50%;
-  bottom: 20%;
-  height: 52%;
-  display: flex;
-  align-items: flex-end;
-  transition: transform .45s cubic-bezier(.3, 1.4, .5, 1);
+  left: 15%;
+  width: 70%;
+  bottom: 4%;
+  transition: left .45s cubic-bezier(.3, 1.4, .5, 1);
   z-index: 1;
 }
-.stick { height: 100%; aspect-ratio: 60 / 100; flex: none; overflow: visible; transform-origin: 50% 100%; }
-.rope {
+.team-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.rope-line  { stroke: #b07a3c; stroke-width: 10; stroke-linecap: round; fill: none; }
+.rope-braid { stroke: #7a4f22; stroke-width: 10; stroke-dasharray: 3 7; fill: none; }
+/* Gerakan menarik yang terus-menerus */
+.char {
+  transform-box: fill-box;
+  transform-origin: 20% 100%;
+  animation: strain 1.1s ease-in-out infinite;
+}
+.team.tug-left  .team-svg { animation: jerkL .35s; }
+.team.tug-right .team-svg { animation: jerkR .35s; }
+
+/* Bar posisi */
+.meter {
   position: relative;
-  flex: 1;
-  align-self: stretch;
-  background: linear-gradient(transparent 43%, #8b5a2b 43% 48%, transparent 48%);
+  height: clamp(14px, 3.5vmin, 26px);
+  border: 3px solid var(--ink);
+  border-radius: 99px;
+  background: var(--orange);
+  overflow: hidden;
 }
-.ribbon {
+.meter-fill {
   position: absolute;
-  left: 50%; top: 38%;
-  width: 8px; height: 16%;
-  margin-left: -4px;
-  background: #e63946;
-  border-radius: 2px;
+  left: 0; top: 0; bottom: 0;
+  width: 50%;
+  background: var(--blue);
+  transition: width .45s ease;
 }
-.team.tug-left  .stick { animation: leanL .35s; }
-.team.tug-right .stick { animation: leanR .35s; }
+.meter-mark {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 5px;
+  margin-left: -2.5px;
+  background: var(--ink);
+  transition: left .45s ease;
+}
 
 /* Hitung mundur */
 .countdown {
@@ -334,8 +348,12 @@ h2 { font-size: clamp(24px, 7vmin, 56px); }
   25% { transform: translateX(-8px); }
   75% { transform: translateX(8px); }
 }
-@keyframes leanL { 50% { transform: rotate(-8deg); } }
-@keyframes leanR { 50% { transform: rotate(8deg); } }
+@keyframes strain {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-4deg) translateX(-2px); }
+}
+@keyframes jerkL { 40% { transform: translateX(-2%); } }
+@keyframes jerkR { 40% { transform: translateX(2%); } }
 @keyframes pop {
   0% { transform: scale(.3); opacity: 0; }
   40% { transform: scale(1.15); opacity: 1; }

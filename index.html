@@ -63,38 +63,175 @@
     <div class="arena">
       <button class="quit" id="btn-quit" aria-label="Keluar">✕</button>
       <div class="stage">
+        <!-- Latar: ilustrasi kampus BINUS (gedung abu-abu, aksen oranye) -->
+        <svg class="campus" viewBox="0 0 800 450" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#bfe3f2"/>
+              <stop offset="1" stop-color="#eef6f3"/>
+            </linearGradient>
+            <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#9cc9e6"/>
+              <stop offset="1" stop-color="#3f7fae"/>
+            </linearGradient>
+            <pattern id="slots" width="36" height="30" patternUnits="userSpaceOnUse">
+              <rect x="6" y="10" width="22" height="5" fill="#2f3842"/>
+            </pattern>
+            <pattern id="winrows" width="24" height="22" patternUnits="userSpaceOnUse">
+              <rect x="3" y="4" width="18" height="12" fill="#b9d6ea"/>
+            </pattern>
+            <pattern id="tiles" width="40" height="20" patternUnits="userSpaceOnUse">
+              <path d="M0 20 H40 M20 0 V20" stroke="#c9c2b6" stroke-width="1.5"/>
+            </pattern>
+          </defs>
+
+          <rect width="800" height="450" fill="url(#sky)"/>
+          <!-- awan -->
+          <g fill="#fff" opacity=".8">
+            <ellipse cx="120" cy="40" rx="50" ry="14"/>
+            <ellipse cx="720" cy="55" rx="60" ry="15"/>
+          </g>
+
+          <!-- Menara putih dengan garis oranye -->
+          <rect x="40" y="40" width="140" height="265" fill="#eceff1"/>
+          <rect x="44" y="50" width="120" height="250" fill="url(#winrows)"/>
+          <rect x="56" y="48" width="10" height="252" fill="#f7941d"/>
+
+          <!-- Menara abu-abu gelap -->
+          <rect x="150" y="12" width="115" height="293" fill="#5d6874"/>
+          <rect x="150" y="12" width="115" height="293" fill="url(#slots)"/>
+
+          <!-- Gedung utama -->
+          <rect x="280" y="70" width="430" height="235" fill="#6c7886"/>
+          <g fill="#7a8694">
+            <rect x="290" y="80" width="70" height="40"/>
+            <rect x="380" y="95" width="60" height="45"/>
+            <rect x="300" y="140" width="55" height="40"/>
+            <rect x="680" y="150" width="30" height="50"/>
+            <rect x="420" y="160" width="40" height="35"/>
+          </g>
+          <g fill="#606c79">
+            <rect x="360" y="120" width="40" height="30"/>
+            <rect x="650" y="80" width="50" height="45"/>
+            <rect x="680" y="215" width="30" height="40"/>
+          </g>
+          <!-- Papan nama oranye -->
+          <rect x="470" y="96" width="210" height="38" fill="#f7941d"/>
+          <text x="575" y="122" text-anchor="middle" font-family="system-ui, sans-serif"
+                font-size="20" font-weight="800" fill="#1a1a1a" letter-spacing="1">BINUS UNIVERSITY</text>
+          <!-- Pintu kaca berbingkai oranye -->
+          <rect x="478" y="168" width="184" height="137" fill="url(#glass)"/>
+          <g stroke="#e8f2f8" stroke-width="2" opacity=".7">
+            <line x1="478" y1="205" x2="662" y2="205"/>
+            <line x1="478" y1="245" x2="662" y2="245"/>
+            <line x1="540" y1="168" x2="540" y2="305"/>
+            <line x1="600" y1="168" x2="600" y2="305"/>
+          </g>
+          <rect x="478" y="168" width="184" height="137" fill="none" stroke="#f7941d" stroke-width="10"/>
+          <!-- Jendela kaca kiri -->
+          <rect x="290" y="210" width="140" height="95" fill="url(#glass)"/>
+          <g stroke="#e8f2f8" stroke-width="2" opacity=".7">
+            <line x1="290" y1="240" x2="430" y2="240"/>
+            <line x1="290" y1="272" x2="430" y2="272"/>
+          </g>
+
+          <!-- Kanopi putih dengan tiang oranye -->
+          <rect x="640" y="245" width="170" height="8" fill="#f4f4f4"/>
+          <g fill="#f7941d">
+            <rect x="660" y="245" width="7" height="60"/>
+            <rect x="740" y="245" width="7" height="60"/>
+          </g>
+          <g stroke="#f4f4f4" stroke-width="3">
+            <line x1="670" y1="262" x2="670" y2="305"/><line x1="682" y1="262" x2="682" y2="305"/>
+            <line x1="694" y1="262" x2="694" y2="305"/><line x1="706" y1="262" x2="706" y2="305"/>
+            <line x1="718" y1="262" x2="718" y2="305"/><line x1="730" y1="262" x2="730" y2="305"/>
+          </g>
+
+          <!-- Pohon -->
+          <g>
+            <rect x="26" y="270" width="6" height="35" fill="#6b4f2a"/>
+            <circle cx="29" cy="262" r="24" fill="#4caf50"/>
+            <rect x="452" y="272" width="5" height="33" fill="#6b4f2a"/>
+            <circle cx="455" cy="265" r="17" fill="#5cbf60"/>
+            <rect x="772" y="268" width="6" height="37" fill="#6b4f2a"/>
+            <circle cx="775" cy="258" r="22" fill="#4caf50"/>
+          </g>
+          <rect x="0" y="292" width="800" height="13" fill="#7cc36f"/>
+
+          <!-- Pelataran tempat bermain -->
+          <rect x="0" y="305" width="800" height="145" fill="#ddd7cc"/>
+          <rect x="0" y="305" width="800" height="145" fill="url(#tiles)"/>
+          <rect x="0" y="305" width="800" height="5" fill="#a9b0b8"/>
+        </svg>
+
+        <!-- Opsional: simpan foto kampus bernama kampus.jpg di folder yang sama
+             untuk mengganti ilustrasi di atas. Jika file tidak ada, ilustrasi tetap dipakai. -->
+        <img class="bg-photo" src="kampus.jpg" alt="" onerror="this.remove()">
+
         <div class="finish left"></div>
         <div class="finish right"></div>
-        <div class="ticks"></div>
         <div class="center-line"></div>
 
+        <!-- Tambang + 2 mahasiswa. Seluruhnya digeser saat ada tarikan. -->
         <div class="team" id="team">
-          <!-- Stickman Player 1 (biru, menghadap kanan) -->
-          <svg class="stick s1" viewBox="0 0 60 100">
-            <g stroke="var(--p1)" stroke-width="5" stroke-linecap="round" fill="none">
-              <circle cx="17" cy="17" r="9" fill="var(--p1)"/>
-              <line x1="22" y1="28" x2="30" y2="62"/>
-              <line x1="24" y1="36" x2="60" y2="45"/>
-              <line x1="24" y1="40" x2="60" y2="47"/>
-              <line x1="30" y1="62" x2="16" y2="97"/>
-              <line x1="30" y1="62" x2="46" y2="97"/>
-            </g>
-          </svg>
+          <svg viewBox="36 18 568 192" class="team-svg">
+            <defs>
+              <!-- Mahasiswa berjaket maroon, menghadap kanan, condong ke belakang.
+                   Warna ikat kepala & sepatu = currentColor (warna tim). -->
+              <g id="student">
+                <!-- kaki -->
+                <g stroke="#2b2d42" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                  <polyline points="36,130 22,166 14,194"/>
+                  <polyline points="44,130 60,164 74,194"/>
+                </g>
+                <!-- sepatu -->
+                <ellipse cx="12" cy="199" rx="12" ry="6" fill="currentColor"/>
+                <ellipse cx="80" cy="199" rx="12" ry="6" fill="currentColor"/>
+                <!-- lengan belakang -->
+                <line x1="32" y1="98" x2="86" y2="130" stroke="#5c0018" stroke-width="13" stroke-linecap="round"/>
+                <!-- badan & kepala, dimiringkan ke belakang -->
+                <g transform="rotate(-20 40 132)">
+                  <rect x="23" y="80" width="34" height="58" rx="13" fill="#800020"/>
+                  <line x1="44" y1="86" x2="44" y2="134" stroke="#c9a227" stroke-width="2.5"/>
+                  <path d="M25 88 Q40 72 55 88" fill="none" stroke="#5c0018" stroke-width="6" stroke-linecap="round"/>
+                  <rect x="35" y="70" width="10" height="12" fill="#e8b48f"/>
+                  <circle cx="40" cy="54" r="21" fill="#f2c29b"/>
+                  <path d="M19 52 Q20 30 42 31 Q62 32 61 50 Q50 40 36 44 Q26 46 19 52 Z" fill="#1f1f1f"/>
+                  <rect x="18" y="44" width="44" height="7" rx="3" fill="currentColor"/>
+                  <circle cx="25" cy="58" r="4" fill="#e8b48f"/>
+                  <circle cx="52" cy="57" r="2.8" fill="#1f1f1f"/>
+                  <path d="M47 68 Q52 71 57 67" fill="none" stroke="#b0533c" stroke-width="2" stroke-linecap="round"/>
+                </g>
+                <!-- lengan depan -->
+                <line x1="26" y1="94" x2="90" y2="124" stroke="#800020" stroke-width="14" stroke-linecap="round"/>
+                <circle cx="96" cy="126" r="7" fill="#f2c29b"/>
+              </g>
+            </defs>
 
-          <div class="rope"><div class="ribbon"></div></div>
+            <!-- Ujung tambang yang menjuntai ke tanah -->
+            <path d="M110 126 Q62 130 40 204" class="rope-line"/>
+            <path d="M530 126 Q578 130 600 204" class="rope-line"/>
+            <!-- Tambang utama -->
+            <line x1="108" y1="126" x2="532" y2="126" class="rope-line"/>
+            <line x1="108" y1="126" x2="532" y2="126" class="rope-braid"/>
 
-          <!-- Stickman Player 2 (merah, dicerminkan) -->
-          <svg class="stick s2" viewBox="0 0 60 100">
-            <g transform="translate(60,0) scale(-1,1)" stroke="var(--p2)" stroke-width="5" stroke-linecap="round" fill="none">
-              <circle cx="17" cy="17" r="9" fill="var(--p2)"/>
-              <line x1="22" y1="28" x2="30" y2="62"/>
-              <line x1="24" y1="36" x2="60" y2="45"/>
-              <line x1="24" y1="40" x2="60" y2="47"/>
-              <line x1="30" y1="62" x2="16" y2="97"/>
-              <line x1="30" y1="62" x2="46" y2="97"/>
+            <!-- Bendera merah di tengah tambang -->
+            <path d="M308 122 L332 122 L328 174 L320 164 L312 174 Z" fill="#e63946" stroke="#a4161a" stroke-width="2"/>
+
+            <!-- Player 1 (ikat kepala biru) -->
+            <g class="char"><use href="#student" x="62" style="color: var(--p1)"/></g>
+            <!-- Player 2 (ikat kepala oranye), dicerminkan -->
+            <g transform="translate(640,0) scale(-1,1)">
+              <g class="char"><use href="#student" x="62" style="color: var(--p2)"/></g>
             </g>
           </svg>
         </div>
+      </div>
+
+      <!-- Bar posisi: biru membesar saat Player 1 unggul, oranye saat Player 2 unggul -->
+      <div class="meter">
+        <div class="meter-fill" id="meter-fill"></div>
+        <div class="meter-mark" id="meter-mark"></div>
       </div>
       <p class="hint" id="hint">Jawab benar untuk menarik tambang!</p>
       <p class="mini-brand"><b>BINUS</b> University · Mathematics &amp; Statistics</p>
